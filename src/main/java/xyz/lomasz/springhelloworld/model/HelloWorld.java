@@ -1,4 +1,4 @@
-package xyz.lomasz.springhelloworld;
+package xyz.lomasz.springhelloworld.model;
 
 public class HelloWorld {
 
