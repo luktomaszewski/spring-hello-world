@@ -20,10 +20,10 @@ public class TimestampController {
             @ApiResponse(code = 403, message = "U R not awesome enough, go away!"),
             @ApiResponse(code = 404, message = "Wrong way, dude!"),
             @ApiResponse(code = 666, message = "Highway to Hell!")
-        }
+    }
     )
     @RequestMapping(value = "getDateTime", method = RequestMethod.GET)
-    Timestamp getDateTime(){
+    Timestamp getDateTime() {
         return new Timestamp();
     }
 }

@@ -1,4 +1,5 @@
 package xyz.lomasz.springhelloworld.model;
+
 import io.swagger.annotations.ApiModelProperty;
 
 public class HelloWorld {

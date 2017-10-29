@@ -16,7 +16,7 @@ public class HelloWorldController {
 
     @ApiOperation(value = "Hello!")
     @RequestMapping(value = "helloworld", method = RequestMethod.GET)
-    public HelloWorld sayHi(@RequestParam(value = "name", defaultValue = "World") String name ) {
+    public HelloWorld sayHi(@RequestParam(value = "name", defaultValue = "World") String name) {
         return new HelloWorld(String.format(template, name));
     }
 }

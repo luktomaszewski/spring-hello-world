@@ -17,7 +17,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 public class SwaggerConfig {
 
     @Bean
-    public Docket SwaggerApi(){
+    public Docket SwaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
@@ -26,7 +26,7 @@ public class SwaggerConfig {
                 .build();
     }
 
-    private ApiInfo apiInfo(){
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Spring Hello World's Swagger")
                 .description("Swagger for Spring Hello World Project")
