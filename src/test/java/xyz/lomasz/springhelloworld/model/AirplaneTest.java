@@ -6,18 +6,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AirplaneTest {
 
-    public static Airplane createDumpAirplane() {
-        Airplane dumpAirplane = new Airplane();
+    public static Airplane createDummyAirplane() {
+        Airplane dummyAirplane = new Airplane();
 
-        dumpAirplane.setTailNumber("SP-LRA");
-        dumpAirplane.setType("B788");
+        dummyAirplane.setTailNumber("SP-LRA");
+        dummyAirplane.setType("B788");
 
-        return dumpAirplane;
+        return dummyAirplane;
     }
 
     @Test
     public void testAirplaneObject() throws Exception {
-        Airplane airplane = createDumpAirplane();
+        Airplane airplane = createDummyAirplane();
         assertThat(airplane.getTailNumber()).isEqualTo("SP-LRA");
         assertThat(airplane.getType()).isEqualTo("B788");
     }

@@ -6,20 +6,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CrewTest {
 
-    public static Crew createDumpCrew() {
-        Crew dumpCrew = new Crew();
+    public static Crew createDummyCrew() {
+        Crew dummyCrew = new Crew();
 
-        dumpCrew.setId(99);
-        dumpCrew.setName("John");
-        dumpCrew.setSurname("Doe");
-        dumpCrew.setCrewType(CrewType.PILOT);
+        dummyCrew.setId(99);
+        dummyCrew.setName("John");
+        dummyCrew.setSurname("Doe");
+        dummyCrew.setCrewType(CrewType.PILOT);
 
-        return dumpCrew;
+        return dummyCrew;
     }
 
     @Test
     public void testCrewObject() throws Exception {
-        Crew crew = createDumpCrew();
+        Crew crew = createDummyCrew();
         assertThat(crew.getId()).isEqualTo(99);
         assertThat(crew.getName()).isEqualTo("John");
         assertThat(crew.getSurname()).isEqualTo("Doe");

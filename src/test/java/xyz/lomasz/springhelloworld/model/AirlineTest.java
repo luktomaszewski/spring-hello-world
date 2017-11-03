@@ -6,28 +6,29 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
-import static xyz.lomasz.springhelloworld.model.CrewTest.createDumpCrew;
+import static xyz.lomasz.springhelloworld.model.CrewTest.createDummyCrew;
 
 
 public class AirlineTest {
 
     public static Airline createDumpAirline() {
-        Airline dumpAirline = new Airline();
-        dumpAirline.setId(99);
-        dumpAirline.setName("Dump Airlines");
-        dumpAirline.setHub("Dump Airport");
-        dumpAirline.setCrew(Arrays.asList(createDumpCrew()));
-        dumpAirline.setFleet(Arrays.asList(AirplaneTest.createDumpAirplane()));
+        Airline dummyAirline = new Airline();
 
-        return dumpAirline;
+        dummyAirline.setId(99);
+        dummyAirline.setName("Dummy Airline");
+        dummyAirline.setHub("Dummy Airport");
+        dummyAirline.setCrew(Arrays.asList(createDummyCrew()));
+        dummyAirline.setFleet(Arrays.asList(AirplaneTest.createDummyAirplane()));
+
+        return dummyAirline;
     }
 
     @Test
     public void testAirlineObject() throws Exception {
         Airline airline = createDumpAirline();
         assertThat(airline.getId()).isEqualTo(99);
-        assertThat(airline.getName()).isEqualTo("Dump Airlines");
-        assertThat(airline.getHub()).isEqualTo("Dump Airport");
+        assertThat(airline.getName()).isEqualTo("Dummy Airline");
+        assertThat(airline.getHub()).isEqualTo("Dummy Airport");
         assertThat(airline.getCrew())
                 .extracting(crew -> this);
         assertThat(airline.getFleet())
