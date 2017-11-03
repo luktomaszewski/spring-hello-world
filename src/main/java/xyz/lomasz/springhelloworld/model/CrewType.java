@@ -1,0 +1,18 @@
+package xyz.lomasz.springhelloworld.model;
+
+public enum CrewType {
+    PILOT,
+    ATTENDANT,
+    NAVIGATOR,
+    FLIGHT_ENGINEER,
+    SECURITY_PERSONNEL,
+    AEROSPACE_ENGINEER,
+    AVIONICS_ENGINEER,
+    FLIGHT_DISPATCHER,
+    BAGGAGE_HANDLER,
+    RAMP_AGENT,
+    GATE_AGENT,
+    TICKET_AGENT,
+    PASSENGER_SERVICE_AGENT,
+    CREW_SCHEDULER
+}
