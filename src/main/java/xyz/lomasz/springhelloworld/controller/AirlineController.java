@@ -25,7 +25,7 @@ public class AirlineController {
     }
 
     @ApiOperation(value = "Getting information about all airlines")
-    @RequestMapping(value = "all", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Airline>> listAllAirlines() {
         List<Airline> airlinesList = airlineService.findAll();
         if (airlinesList.isEmpty()) {
