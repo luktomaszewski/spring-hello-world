@@ -1,7 +1,9 @@
 package xyz.lomasz.springhelloworld.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 enum CrewType {
     PILOT,
@@ -21,10 +23,12 @@ enum CrewType {
 }
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Crew {
 
     @ApiModelProperty(notes = "Worker's ID")
-    private long id;
+    private int id;
     @ApiModelProperty(notes = "First Name", position = 1)
     private String name;
     @ApiModelProperty(notes = "Last Name", position = 2)
