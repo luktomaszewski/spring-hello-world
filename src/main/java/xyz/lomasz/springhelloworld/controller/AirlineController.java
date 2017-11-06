@@ -3,9 +3,11 @@ package xyz.lomasz.springhelloworld.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import xyz.lomasz.springhelloworld.model.Airline;
 import xyz.lomasz.springhelloworld.service.AirlineService;
 
@@ -46,12 +48,14 @@ public class AirlineController {
 
     @ApiOperation(value = "Adding new airline to service")
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> createAirline(@RequestBody Airline airline) {
+    public ResponseEntity<?> createAirline(@RequestBody Airline airline, UriComponentsBuilder ucBuilder) {
         if (airlineService.isExist(airline)) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
         airlineService.save(airline);
-        return new ResponseEntity<String>(HttpStatus.CREATED);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/airline/{id}").buildAndExpand(airline.getId()).toUri());
+        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Deleting airline from service")
