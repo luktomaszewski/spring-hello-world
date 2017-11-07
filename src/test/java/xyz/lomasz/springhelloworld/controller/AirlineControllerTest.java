@@ -22,13 +22,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AirlineControllerTest {
 
     public static final String PATH = "airline";
+    public static final int PORT = 666;
     private static RequestSpecification spec;
 
     @BeforeClass
     public static void initSpec() {
         spec = new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
-                .setPort(666)
+                .setPort(PORT)
                 .addFilter(new ResponseLoggingFilter())
                 .addFilter(new RequestLoggingFilter())
                 .build();
