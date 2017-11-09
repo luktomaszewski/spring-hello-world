@@ -38,7 +38,7 @@ public class AirlineController {
 
     @ApiOperation(value = "Getting information about specific airline (finding by ID)")
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getAirline(@PathVariable("id") int id) {
+    public ResponseEntity<?> getAirline(@PathVariable("id") Long id) {
         Optional<Airline> airline = airlineService.findById(id);
         if (!airline.isPresent()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -60,7 +60,7 @@ public class AirlineController {
 
     @ApiOperation(value = "Deleting airline from service")
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteAirline(@PathVariable("id") int id) {
+    public ResponseEntity<?> deleteAirline(@PathVariable("id") Long id) {
         Optional<Airline> airline = airlineService.findById(id);
         if (!airline.isPresent()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);

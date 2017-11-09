@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AirlineService {
 
-    Optional<Airline> findById(int id);
+    Optional<Airline> findById(Long id);
 
     Optional<Airline> findByName(String name);
 
@@ -17,7 +17,7 @@ public interface AirlineService {
 
     void update(Airline airline);
 
-    void delete(int id);
+    void delete(Long id);
 
     boolean isExist(Airline airline);
 

@@ -7,15 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service("airlineService")
 public class AirlineServiceImpl implements AirlineService {
 
-    private static final AtomicInteger counter = new AtomicInteger();
+    private static final AtomicLong counter = new AtomicLong();
     private static List<Airline> airlines = new ArrayList<>();
 
     @Override
-    public Optional<Airline> findById(int id) {
+    public Optional<Airline> findById(Long id) {
         return airlines.stream()
                 .filter(airline -> airline.getId() == id)
                 .findFirst();
@@ -46,7 +47,7 @@ public class AirlineServiceImpl implements AirlineService {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Long id) {
         airlines.removeIf(airline -> airline.getId() == id);
     }
 
