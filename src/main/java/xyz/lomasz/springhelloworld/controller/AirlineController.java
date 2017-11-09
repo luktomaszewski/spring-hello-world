@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import xyz.lomasz.springhelloworld.dao.AirlineRepository;
 import xyz.lomasz.springhelloworld.model.Airline;
-import xyz.lomasz.springhelloworld.service.AirlineService;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,27 +19,27 @@ import java.util.Optional;
 @Api(value = "Airline", description = "REST Service for Information about Airlines")
 public class AirlineController {
 
-    private AirlineService airlineService;
+    private AirlineRepository airlineRepository;
 
     @Autowired
-    public AirlineController(AirlineService airlineService) {
-        this.airlineService = airlineService;
+    public AirlineController(AirlineRepository airlineRepository) {
+        this.airlineRepository = airlineRepository;
     }
 
     @ApiOperation(value = "Getting information about all airlines")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Airline>> listAllAirlines() {
-        List<Airline> airlinesList = airlineService.findAll();
+        List<Airline> airlinesList = airlineRepository.findAll();
         if (airlinesList.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<Airline>>(airlinesList, HttpStatus.OK);
+        return new ResponseEntity<>(airlinesList, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Getting information about specific airline (finding by ID)")
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getAirline(@PathVariable("id") Long id) {
-        Optional<Airline> airline = airlineService.findById(id);
+        Optional<Airline> airline = airlineRepository.findById(id);
         if (!airline.isPresent()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -49,10 +49,10 @@ public class AirlineController {
     @ApiOperation(value = "Adding new airline to service")
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> createAirline(@RequestBody Airline airline, UriComponentsBuilder ucBuilder) {
-        if (airlineService.isExist(airline)) {
+        if (airlineRepository.findByName(airline.getName()).isPresent()) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
-        airlineService.save(airline);
+        airlineRepository.save(airline);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/airline/{id}").buildAndExpand(airline.getId()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
@@ -61,11 +61,11 @@ public class AirlineController {
     @ApiOperation(value = "Deleting airline from service")
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteAirline(@PathVariable("id") Long id) {
-        Optional<Airline> airline = airlineService.findById(id);
+        Optional<Airline> airline = airlineRepository.findById(id);
         if (!airline.isPresent()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        airlineService.delete(id);
+        airlineRepository.delete(id);
         return new ResponseEntity<Airline>(HttpStatus.OK);
     }
 }
