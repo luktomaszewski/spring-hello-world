@@ -8,12 +8,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Crew {
+public class Crew implements Serializable {
 
     @ApiModelProperty(notes = "Worker's ID", hidden = true)
     @Id

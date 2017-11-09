@@ -7,12 +7,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Airplane {
+public class Airplane implements Serializable {
 
     @ApiModelProperty(notes = "Tail Number")
     @Id

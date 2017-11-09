@@ -3,15 +3,13 @@ package xyz.lomasz.springhelloworld.model;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Entity
-public class Airline {
+public class Airline implements Serializable {
 
     @ApiModelProperty(notes = "Airline's ID", hidden = true)
     @Id
@@ -24,10 +22,12 @@ public class Airline {
 
     @ApiModelProperty(notes = "Crew's List", position = 3)
     @OneToMany
+    @JoinColumn(name = "airline_id", referencedColumnName = "id")
     private List<Crew> crew;
 
     @ApiModelProperty(notes = "Airplane's List (Fleet)", position = 4)
     @OneToMany
+    @JoinColumn(name = "airline_id", referencedColumnName = "id")
     private List<Airplane> fleet;
 
 }
