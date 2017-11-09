@@ -21,8 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class AirlineControllerTest {
 
-    public static final String PATH = "airline";
-    public static final int PORT = 666;
+    private static final String PATH = "airline";
+    private static final int PORT = 666;
     private static RequestSpecification spec;
 
     @BeforeClass
@@ -35,13 +35,13 @@ public class AirlineControllerTest {
                 .build();
     }
 
-    Airline createDummyAirline(String name) {
+    private Airline createDummyAirline(String name) {
         Airline dummyAirline = new Airline();
 
         dummyAirline.setName(name + " Airline");
         dummyAirline.setHub(name + " Airport");
         dummyAirline.setFleet(Arrays.asList(new Airplane(name, "B788")));
-        dummyAirline.setCrew(Arrays.asList(new Crew(1, name, "Pilot", CrewType.PILOT)));
+        dummyAirline.setCrew(Arrays.asList(new Crew(1L, name, "Pilot", CrewType.PILOT)));
 
         return dummyAirline;
     }
@@ -149,7 +149,7 @@ public class AirlineControllerTest {
                 Arrays.stream(airlineList)
                         .filter(airline -> airline.getName().equals(firstAirline.getName()))
                         .findAny()
-                        .get(),
+                        .orElse(null),
                 firstAirline);
 
         //STEP 4.2: Comparing Second Airline: new with retrieved
@@ -157,7 +157,7 @@ public class AirlineControllerTest {
                 Arrays.stream(airlineList)
                         .filter(airline -> airline.getName().equals(secondAirline.getName()))
                         .findAny()
-                        .get(),
+                        .orElse(null),
                 secondAirline);
 
         // STEP 5: Deleting airlines -> expected HTTP Status: 200 - OK

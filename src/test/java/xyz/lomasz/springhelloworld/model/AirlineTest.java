@@ -10,17 +10,17 @@ import static org.assertj.core.api.Assertions.tuple;
 
 public class AirlineTest {
 
-    public static Airline createDumpAirline() {
+    private static Airline createDummyAirline() {
         Airline dummyAirline = new Airline();
 
-        dummyAirline.setId(99);
+        dummyAirline.setId(99L);
         dummyAirline.setName("Dummy Airline");
         dummyAirline.setHub("Dummy Airport");
         dummyAirline.setFleet(Arrays.asList(
                 new Airplane("SP-LRA", "B788")
         ));
         dummyAirline.setCrew(Arrays.asList(
-                new Crew(99, "John", "Doe", CrewType.PILOT)
+                new Crew(99L, "John", "Doe", CrewType.PILOT)
         ));
 
         return dummyAirline;
@@ -28,7 +28,7 @@ public class AirlineTest {
 
     @Test
     public void testAirlineObject() throws Exception {
-        Airline airline = createDumpAirline();
+        Airline airline = createDummyAirline();
         assertThat(airline.getId()).isEqualTo(99);
         assertThat(airline.getName()).isEqualTo("Dummy Airline");
         assertThat(airline.getHub()).isEqualTo("Dummy Airport");
@@ -37,6 +37,6 @@ public class AirlineTest {
                 .contains(tuple("SP-LRA", "B788"));
         assertThat(airline.getCrew())
                 .extracting("id", "name", "surname", "crewType")
-                .contains(tuple(99, "John", "Doe", CrewType.PILOT));
+                .contains(tuple(99L, "John", "Doe", CrewType.PILOT));
     }
 }

@@ -6,10 +6,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CrewTest {
 
-    public static Crew createDummyCrew() {
+    private static Crew createDummyCrew() {
         Crew dummyCrew = new Crew();
 
-        dummyCrew.setId(99);
+        dummyCrew.setId(99L);
         dummyCrew.setName("John");
         dummyCrew.setSurname("Doe");
         dummyCrew.setCrewType(CrewType.PILOT);
