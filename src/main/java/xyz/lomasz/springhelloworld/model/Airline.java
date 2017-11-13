@@ -21,12 +21,12 @@ public class Airline implements Serializable {
     private String hub;
 
     @ApiModelProperty(notes = "Crew's List", position = 3)
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "airline_id", referencedColumnName = "id")
     private List<Crew> crew;
 
     @ApiModelProperty(notes = "Airplane's List (Fleet)", position = 4)
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "airline_id", referencedColumnName = "id")
     private List<Airplane> fleet;
 

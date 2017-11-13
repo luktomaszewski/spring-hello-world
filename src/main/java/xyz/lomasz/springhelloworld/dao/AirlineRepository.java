@@ -14,6 +14,4 @@ public interface AirlineRepository extends CrudRepository<Airline, Long> {
     Optional<Airline> findById(Long id);
 
     Optional<Airline> findByName(String name);
-
-    boolean exists(Long id);
 }

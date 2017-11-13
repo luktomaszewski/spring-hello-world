@@ -41,7 +41,7 @@ public class AirlineControllerTest {
         dummyAirline.setName(name + " Airline");
         dummyAirline.setHub(name + " Airport");
         dummyAirline.setFleet(Arrays.asList(new Airplane(name, "B788")));
-        dummyAirline.setCrew(Arrays.asList(new Crew(1L, name, "Pilot", CrewType.PILOT)));
+        dummyAirline.setCrew(Arrays.asList(new Crew(name, "Pilot", CrewType.PILOT)));
 
         return dummyAirline;
     }
@@ -78,7 +78,13 @@ public class AirlineControllerTest {
     }
 
     private void assertEqualAirline(Airline newAirline, Airline retrievedAirline) {
-        assertThat(newAirline).isEqualToIgnoringGivenFields(retrievedAirline, "id");
+        assertThat(newAirline).
+                isEqualToIgnoringGivenFields(retrievedAirline, "id", "crew");
+
+        assertThat(newAirline.getCrew())
+                .usingElementComparatorIgnoringFields("id")
+                .isEqualTo(retrievedAirline.getCrew());
+
     }
 
     @Test
