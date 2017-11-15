@@ -5,9 +5,12 @@ import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import xyz.lomasz.springhelloworld.model.Airline;
 import xyz.lomasz.springhelloworld.model.Airplane;
 import xyz.lomasz.springhelloworld.model.Crew;
@@ -18,18 +21,21 @@ import java.util.Arrays;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
 public class AirlineControllerTest {
 
     private static final String PATH = "airline";
-    private static final int PORT = 666;
     private static RequestSpecification spec;
 
-    @BeforeClass
-    public static void initSpec() {
+    @LocalServerPort
+    int randomServerPort;
+
+    @Before
+    public void initSpec() {
         spec = new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
-                .setPort(PORT)
+                .setPort(randomServerPort)
                 .addFilter(new ResponseLoggingFilter())
                 .addFilter(new RequestLoggingFilter())
                 .build();
@@ -84,7 +90,6 @@ public class AirlineControllerTest {
         assertThat(newAirline.getCrew())
                 .usingElementComparatorIgnoringFields("id")
                 .isEqualTo(retrievedAirline.getCrew());
-
     }
 
     @Test
