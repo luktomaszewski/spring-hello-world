@@ -1,24 +1,24 @@
 package xyz.lomasz.springhelloworld.model;
 
-import org.junit.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.Test;
 
 public class AirplaneTest {
 
-    public static Airplane createDummyAirplane() {
-        Airplane dummyAirplane = new Airplane();
+  public static Airplane createDummyAirplane() {
+    Airplane dummyAirplane = new Airplane();
 
-        dummyAirplane.setTailNumber("SP-LRA");
-        dummyAirplane.setType("B788");
+    dummyAirplane.setTailNumber("SP-LRA");
+    dummyAirplane.setType("B788");
 
-        return dummyAirplane;
-    }
+    return dummyAirplane;
+  }
 
-    @Test
-    public void testAirplaneObject() throws Exception {
-        Airplane airplane = createDummyAirplane();
-        assertThat(airplane.getTailNumber()).isEqualTo("SP-LRA");
-        assertThat(airplane.getType()).isEqualTo("B788");
-    }
+  @Test
+  public void testAirplaneObject() throws Exception {
+    Airplane airplane = createDummyAirplane();
+    assertThat(airplane.getTailNumber()).isEqualTo("SP-LRA");
+    assertThat(airplane.getType()).isEqualTo("B788");
+  }
 }

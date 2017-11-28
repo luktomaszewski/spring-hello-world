@@ -12,11 +12,11 @@ import xyz.lomasz.springhelloworld.model.HelloWorld;
 @Api(value = "HelloWorld", description = "How many wood could a woodchuck chuck if a woodchuck could chuck wood?")
 public class HelloWorldController {
 
-    private static final String template = "Hello %s!";
+  private static final String template = "Hello %s!";
 
-    @ApiOperation(value = "Hello!")
-    @RequestMapping(value = "helloworld", method = RequestMethod.GET)
-    public HelloWorld sayHi(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new HelloWorld(String.format(template, name));
-    }
+  @ApiOperation(value = "Hello!")
+  @RequestMapping(value = "helloworld", method = RequestMethod.GET)
+  public HelloWorld sayHi(@RequestParam(value = "name", defaultValue = "World") String name) {
+    return new HelloWorld(String.format(template, name));
+  }
 }
