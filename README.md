@@ -26,7 +26,7 @@ docker run -d -p 9200:9200 -p 9300:9300 <image_id>
 2) Run ActiveMQ (for example using Docker):
 ```
 docker pull webcenter/activemq
-docker run -d -p 9200:9200 -p 9300:9300 <image_id>
+docker run -p 8161:8161 -p 61616:61616 <image_id>
 ```
 3) Run SpringHelloWorld app (in main project directory)
 ```
