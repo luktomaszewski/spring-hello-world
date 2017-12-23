@@ -7,11 +7,11 @@ import org.springframework.stereotype.Repository;
 import xyz.lomasz.springhelloworld.model.Airline;
 
 @Repository
-public interface AirlineRepository extends CrudRepository<Airline, Long> {
+public interface AirlineRepository extends CrudRepository<Airline, String> {
 
   List<Airline> findAll();
 
-  Optional<Airline> findById(Long id);
+  Optional<Airline> findByIcao(String icao);
 
   Optional<Airline> findByName(String name);
 }

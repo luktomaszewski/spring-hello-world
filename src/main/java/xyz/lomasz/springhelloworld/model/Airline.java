@@ -11,10 +11,7 @@ import java.util.List;
 @Entity
 public class Airline implements Serializable {
 
-    @ApiModelProperty(notes = "Airline's ID", hidden = true)
     @Id
-    @GeneratedValue
-    private Long id;
     @ApiModelProperty(notes = "Airline ICAO", position = 1)
     private String icao;
 
@@ -25,12 +22,12 @@ public class Airline implements Serializable {
 
     @ApiModelProperty(notes = "Crew's List", position = 4)
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "airline_id", referencedColumnName = "id")
+    @JoinColumn(name = "airline_id", referencedColumnName = "icao")
     private List<Crew> crew;
 
     @ApiModelProperty(notes = "Airplane's List (Fleet)", position = 5)
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "airline_id", referencedColumnName = "id")
+    @JoinColumn(name = "airline_id", referencedColumnName = "icao")
     private List<Airplane> fleet;
 
 }

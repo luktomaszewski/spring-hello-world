@@ -12,7 +12,6 @@ public class AirlineTest {
   private static Airline createDummyAirline() {
     Airline dummyAirline = new Airline();
 
-    dummyAirline.setId(99L);
     dummyAirline.setIcao("LOM");
     dummyAirline.setName("Dummy Airline");
     dummyAirline.setHub("Dummy Airport");
@@ -29,7 +28,6 @@ public class AirlineTest {
   @Test
   public void testAirlineObject() throws Exception {
     Airline airline = createDummyAirline();
-    assertThat(airline.getId()).isEqualTo(99);
     assertThat(airline.getIcao()).isEqualTo("LOM");
     assertThat(airline.getName()).isEqualTo("Dummy Airline");
     assertThat(airline.getHub()).isEqualTo("Dummy Airport");

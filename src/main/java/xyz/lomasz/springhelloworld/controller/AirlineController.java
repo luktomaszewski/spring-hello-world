@@ -43,10 +43,10 @@ public class AirlineController {
     return new ResponseEntity<>(airlinesList, HttpStatus.OK);
   }
 
-  @ApiOperation(value = "Getting information about specific airline (finding by ID)")
-  @RequestMapping(value = "{id}", method = RequestMethod.GET)
-  public ResponseEntity<?> getAirline(@PathVariable("id") Long id) {
-    Optional<Airline> airline = airlineRepository.findById(id);
+  @ApiOperation(value = "Getting information about specific airline (finding by ICAO)")
+  @RequestMapping(value = "{icao}", method = RequestMethod.GET)
+  public ResponseEntity<?> getAirline(@PathVariable("icao") String icao) {
+    Optional<Airline> airline = airlineRepository.findByIcao(icao);
     if (!airline.isPresent()) {
       return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
@@ -57,7 +57,7 @@ public class AirlineController {
   @RequestMapping(method = RequestMethod.POST)
   public ResponseEntity<?> createAirline(@RequestBody Airline airline,
       UriComponentsBuilder ucBuilder) throws IOException {
-    if (airlineRepository.findByName(airline.getName()).isPresent()) {
+    if (airlineRepository.findByIcao(airline.getIcao()).isPresent()) {
       return new ResponseEntity(HttpStatus.CONFLICT);
     }
 
@@ -66,19 +66,19 @@ public class AirlineController {
     esIndexService.index(airline);
 
     HttpHeaders headers = new HttpHeaders();
-    headers.setLocation(ucBuilder.path("/airline/{id}").buildAndExpand(airline.getId()).toUri());
+    headers.setLocation(ucBuilder.path("/airline/{icao}").buildAndExpand(airline.getIcao()).toUri());
     return new ResponseEntity<String>(headers, HttpStatus.CREATED);
   }
 
   @ApiOperation(value = "Deleting airline from service")
-  @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-  public ResponseEntity<?> deleteAirline(@PathVariable("id") Long id) throws IOException {
-    Optional<Airline> airline = airlineRepository.findById(id);
+  @RequestMapping(value = "{icao}", method = RequestMethod.DELETE)
+  public ResponseEntity<?> deleteAirline(@PathVariable("icao") String icao) throws IOException {
+    Optional<Airline> airline = airlineRepository.findByIcao(icao);
     if (!airline.isPresent()) {
       return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    airlineRepository.delete(id);
+    airlineRepository.delete(icao);
 
     esIndexService.delete(airline.get());
 
