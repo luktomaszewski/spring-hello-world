@@ -15,17 +15,20 @@ public class Airline implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    @ApiModelProperty(notes = "Airline Name", position = 1)
+    @ApiModelProperty(notes = "Airline ICAO", position = 1)
+    private String icao;
+
+    @ApiModelProperty(notes = "Airline Name", position = 2)
     private String name;
-    @ApiModelProperty(notes = "Airline Hub Airport", position = 2)
+    @ApiModelProperty(notes = "Airline Hub Airport", position = 3)
     private String hub;
 
-    @ApiModelProperty(notes = "Crew's List", position = 3)
+    @ApiModelProperty(notes = "Crew's List", position = 4)
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "airline_id", referencedColumnName = "id")
     private List<Crew> crew;
 
-    @ApiModelProperty(notes = "Airplane's List (Fleet)", position = 4)
+    @ApiModelProperty(notes = "Airplane's List (Fleet)", position = 5)
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "airline_id", referencedColumnName = "id")
     private List<Airplane> fleet;

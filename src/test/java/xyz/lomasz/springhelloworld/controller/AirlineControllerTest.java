@@ -43,6 +43,7 @@ public class AirlineControllerTest {
   private Airline createDummyAirline(String name) {
     Airline dummyAirline = new Airline();
 
+    dummyAirline.setIcao(name);
     dummyAirline.setName(name + " Airline");
     dummyAirline.setHub(name + " Airport");
     dummyAirline.setFleet(Arrays.asList(new Airplane(name, "B788")));

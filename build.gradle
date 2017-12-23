@@ -42,6 +42,12 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.16.18'
 
+    compile "org.elasticsearch.client:elasticsearch-rest-client:6.1.1"
+    compile "org.elasticsearch.client:elasticsearch-rest-high-level-client:6.1.1"
+    compile "org.elasticsearch:elasticsearch:6.1.1"
+
+    compile "org.apache.commons:commons-lang3:3.7"
+
     //TEST
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     testCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.5'

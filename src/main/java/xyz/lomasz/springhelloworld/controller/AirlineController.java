@@ -2,6 +2,7 @@ package xyz.lomasz.springhelloworld.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import xyz.lomasz.springhelloworld.dao.AirlineRepository;
 import xyz.lomasz.springhelloworld.model.Airline;
+import xyz.lomasz.springhelloworld.service.EsIndexService;
 
 @RestController
 @RequestMapping("/airline")
@@ -24,9 +26,12 @@ public class AirlineController {
 
   private AirlineRepository airlineRepository;
 
+  private EsIndexService esIndexService;
+
   @Autowired
-  public AirlineController(AirlineRepository airlineRepository) {
+  public AirlineController(AirlineRepository airlineRepository, EsIndexService esIndexService) {
     this.airlineRepository = airlineRepository;
+    this.esIndexService = esIndexService;
   }
 
   @ApiOperation(value = "Getting information about all airlines")
@@ -52,11 +57,12 @@ public class AirlineController {
   @ApiOperation(value = "Adding new airline to service")
   @RequestMapping(method = RequestMethod.POST)
   public ResponseEntity<?> createAirline(@RequestBody Airline airline,
-      UriComponentsBuilder ucBuilder) {
+      UriComponentsBuilder ucBuilder) throws IOException {
     if (airlineRepository.findByName(airline.getName()).isPresent()) {
       return new ResponseEntity(HttpStatus.CONFLICT);
     }
     airlineRepository.save(airline);
+    esIndexService.index(airline);
     HttpHeaders headers = new HttpHeaders();
     headers.setLocation(ucBuilder.path("/airline/{id}").buildAndExpand(airline.getId()).toUri());
     return new ResponseEntity<String>(headers, HttpStatus.CREATED);
