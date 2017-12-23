@@ -55,8 +55,7 @@ public class AirlineController {
 
   @ApiOperation(value = "Adding new airline to service")
   @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<?> createAirline(@RequestBody Airline airline,
-      UriComponentsBuilder ucBuilder) throws IOException {
+  public ResponseEntity<?> createAirline(@RequestBody Airline airline) throws IOException {
     if (airlineRepository.findByIcao(airline.getIcao()).isPresent()) {
       return new ResponseEntity(HttpStatus.CONFLICT);
     }
@@ -65,6 +64,7 @@ public class AirlineController {
 
     esIndexService.index(airline);
 
+    UriComponentsBuilder ucBuilder = UriComponentsBuilder.newInstance();
     HttpHeaders headers = new HttpHeaders();
     headers.setLocation(ucBuilder.path("/airline/{icao}").buildAndExpand(airline.getIcao()).toUri());
     return new ResponseEntity<String>(headers, HttpStatus.CREATED);
