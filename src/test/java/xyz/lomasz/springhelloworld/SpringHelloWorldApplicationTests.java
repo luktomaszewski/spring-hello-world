@@ -10,7 +10,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class SpringHelloWorldApplicationTests {
 
   @Test
-  public void contextLoads() {
+  public void applicationContextLoaded() {
+  }
+
+  @Test
+  public void applicationContextTest() {
+    SpringHelloWorldApplication.main(new String[] {});
   }
 
 }
