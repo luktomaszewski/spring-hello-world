@@ -25,7 +25,6 @@ import xyz.lomasz.springhelloworld.service.EsIndexService;
 public class AirlineController {
 
   private AirlineRepository airlineRepository;
-
   private EsIndexService esIndexService;
 
   @Autowired
@@ -61,8 +60,11 @@ public class AirlineController {
     if (airlineRepository.findByName(airline.getName()).isPresent()) {
       return new ResponseEntity(HttpStatus.CONFLICT);
     }
+
     airlineRepository.save(airline);
+
     esIndexService.index(airline);
+
     HttpHeaders headers = new HttpHeaders();
     headers.setLocation(ucBuilder.path("/airline/{id}").buildAndExpand(airline.getId()).toUri());
     return new ResponseEntity<String>(headers, HttpStatus.CREATED);
@@ -70,12 +72,16 @@ public class AirlineController {
 
   @ApiOperation(value = "Deleting airline from service")
   @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-  public ResponseEntity<?> deleteAirline(@PathVariable("id") Long id) {
+  public ResponseEntity<?> deleteAirline(@PathVariable("id") Long id) throws IOException {
     Optional<Airline> airline = airlineRepository.findById(id);
     if (!airline.isPresent()) {
       return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
+
     airlineRepository.delete(id);
+
+    esIndexService.delete(airline.get());
+
     return new ResponseEntity<Airline>(HttpStatus.OK);
   }
 }
