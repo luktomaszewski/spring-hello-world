@@ -13,5 +13,4 @@ public interface AirlineRepository extends CrudRepository<Airline, String> {
 
   Optional<Airline> findByIcao(String icao);
 
-  Optional<Airline> findByName(String name);
 }
