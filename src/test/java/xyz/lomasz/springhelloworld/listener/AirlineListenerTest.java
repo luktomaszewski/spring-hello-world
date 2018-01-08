@@ -1,9 +1,7 @@
 package xyz.lomasz.springhelloworld.listener;
 
 import static org.apache.commons.lang3.reflect.FieldUtils.writeDeclaredField;
-import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -21,11 +19,8 @@ public class AirlineListenerTest {
   @Mock
   private Airline airline;
 
-  @Mock
-  private ObjectMapper mapper;
-
   @Test
-  public void shouldReceiveMessageReturn() throws Exception {
+  public void receiveMessageShouldCreateAirline() throws Exception {
     // given
     AirlineListener airlineListener = new AirlineListener();
     writeDeclaredField(airlineListener, "airlineController", airlineController, true);

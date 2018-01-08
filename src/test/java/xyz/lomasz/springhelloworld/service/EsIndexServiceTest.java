@@ -6,7 +6,8 @@ import org.junit.Test;
 public class EsIndexServiceTest {
 
   @Test
-  public void shouldIndexAirlineReturnsCreatedStatus() throws IOException {
+  public void indexAirlineShouldReturnCreatedStatus() throws IOException {
+    // TODO: Unit Test: index(airline) -> RestStatus: CREATED
     // given
 
 
@@ -14,11 +15,13 @@ public class EsIndexServiceTest {
 
 
     // then
+
 
   }
 
   @Test
-  public void shouldIndexAirlineReturnsUpdatedStatus() throws IOException {
+  public void indexAirlineShouldReturnUpdatedStatus() throws IOException {
+    // TODO: Unit Test: index(airline) -> RestStatus: UPDATED
     // given
 
 
@@ -26,11 +29,13 @@ public class EsIndexServiceTest {
 
 
     // then
+
 
   }
 
   @Test
-  public void shouldIndexAirlineReturnsIOException() throws IOException {
+  public void indexAirlineShouldReturnIOException() throws IOException {
+    // TODO: Unit Test: index(airline) -> IOException
     // given
 
 
@@ -38,11 +43,13 @@ public class EsIndexServiceTest {
 
 
     // then
+
 
   }
 
   @Test
-  public void shouldDeleteIndexAirlineReturnsNotFoundStatus() throws IOException {
+  public void deleteAirlineShouldReturnNotFoundStatus() throws IOException {
+    // TODO: Unit Test: deleteIndex(airline) -> RestStatus: NOT FOUND
     // given
 
 
@@ -50,12 +57,14 @@ public class EsIndexServiceTest {
 
 
     // then
+
 
   }
 
 
   @Test
-  public void shouldDeleteIndexAirlineReturnsDeletedStatus() throws IOException {
+  public void deleteAirlineShouldReturnDeletedStatus() throws IOException {
+    // TODO: Unit Test: deleteIndex(airline) -> RestStatus: DELETED
     // given
 
 
@@ -63,11 +72,13 @@ public class EsIndexServiceTest {
 
 
     // then
+
 
   }
 
   @Test
-  public void shouldDeleteIndexAirlineReturnsIOException() throws IOException {
+  public void deleteAirlineShouldReturnIOException() throws IOException {
+    // TODO: Unit Test: deleteIndex(airline) -> IOException
     // given
 
 
@@ -76,7 +87,7 @@ public class EsIndexServiceTest {
 
     // then
 
-  }
 
+  }
 
 }

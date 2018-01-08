@@ -52,7 +52,8 @@ public class AirlineControllerTest {
   }
 
   @Test
-  public void createAirline_newObject_shouldReturnCreatedStatus() throws Exception {
+  public void createAirlineNewShouldReturnCreatedStatus() throws Exception {
+    // TODO : Unit Test: createAirline(airline) -> HttpStatus: 201 CREATED
     // given
 
 
@@ -65,7 +66,8 @@ public class AirlineControllerTest {
 }
 
   @Test
-  public void createAirline_duplicatedObject_shouldReturnConflictStatus() throws Exception {
+  public void createAirlineDuplicatedShouldReturnConflictStatus() throws Exception {
+    // TODO : Unit Test: createAirline(airline) -> HttpStatus: 409 CONFLICT
     // given
 
 
@@ -78,7 +80,8 @@ public class AirlineControllerTest {
   }
 
   @Test
-  public void getAirline_existed_shouldReturnAirline() throws Exception {
+  public void getAirlineExistedShouldReturnAirline() throws Exception {
+    // TODO : Unit Test: getAirline(icao) -> Airline
     // given
 
 
@@ -91,7 +94,8 @@ public class AirlineControllerTest {
   }
 
   @Test
-  public void getAirline_notExisted_shouldReturnNotFoundStatus() throws Exception {
+  public void getAirlineNotExistedShouldReturnNotFoundStatus() throws Exception {
+    // TODO : Unit Test: getAirline(icao) -> HttpStatus: 404 NOT FOUND
     // given
 
 
@@ -104,7 +108,8 @@ public class AirlineControllerTest {
   }
 
   @Test
-  public void deleteAirline_existed_shouldReturnOkStatus() throws Exception {
+  public void deleteAirlineExistedShouldReturnOkStatus() throws Exception {
+    // TODO : Unit Test: deleteAirline(icao) -> HttpStatus: 200 OK
     // given
 
 
@@ -117,7 +122,8 @@ public class AirlineControllerTest {
   }
 
   @Test
-  public void deleteAirline_notExisted_shouldReturnNotFoundStatus() throws Exception {
+  public void deleteAirlineNotExistedShouldReturnNotFoundStatus() throws Exception {
+    // TODO : Unit Test: deleteAirline(icao) -> HttpStatus: 404 NOT FOUND
     // given
 
 
@@ -130,7 +136,8 @@ public class AirlineControllerTest {
   }
 
   @Test
-  public void listAllAirlines_exists_shouldReturnAirlineList() throws Exception {
+  public void listAllAirlinesExistedShouldReturnAirlineList() throws Exception {
+    // TODO : Unit Test: listAllAirlines() -> List<Airline>
     // given
 
 
@@ -143,7 +150,8 @@ public class AirlineControllerTest {
   }
 
   @Test
-  public void listAllAirlines_lackOfObjects_shouldReturnNotFoundStatus() throws Exception {
+  public void listAllAirlinesNotExistedShouldReturnNotFoundStatus() throws Exception {
+    // TODO : Unit Test: listAllAirlines() -> HttpStatus: 404 NOT FOUND
     // given
 
 
