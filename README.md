@@ -2,7 +2,7 @@
 
 My first simple SpringBoot Project 
 
-## Stack:
+## Stack
 
 java8
 spring-boot
@@ -32,3 +32,7 @@ docker run -p 8161:8161 -p 61616:61616 <image_id>
 ```
 gradlew clean bootRun
 ```
+
+## TO-DO
+* unit tests (current test coverage: 48%)
+* docker-compose
