@@ -1,57 +1,57 @@
 package xyz.lomasz.springhelloworld.config;
 
 import javax.jms.ConnectionFactory;
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.annotation.EnableJms;
+import org.springframework.jms.annotation.JmsListenerConfigurer;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
-import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.config.JmsListenerEndpointRegistrar;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.converter.MessageConverter;
+import org.springframework.messaging.handler.annotation.support.DefaultMessageHandlerMethodFactory;
+import xyz.lomasz.springhelloworld.handler.JmsErrorHandler;
 
+@EnableJms
 @Configuration
-public class JmsConfig {
-
-  @Value("${spring.activemq.broker-url}")
-  private String brokerUrl;
+public class JmsConfig implements JmsListenerConfigurer {
 
   @Value("${spring.activemq.user}")
-  private String brokerUsername;
+  private String activemqUser;
 
   @Value("${spring.activemq.password}")
-  private String brokerPassword;
+  private String activemqPassword;
+
+  @Value("${spring.activemq.broker-url}")
+  private String activemqBrokerUrl;
 
   @Bean
-  public ActiveMQConnectionFactory connectionFactory(){
-    ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-    connectionFactory.setBrokerURL(brokerUrl);
-    connectionFactory.setPassword(brokerUsername);
-    connectionFactory.setUserName(brokerPassword);
-    return connectionFactory;
-  }
-
-  @Bean
-  public JmsTemplate jmsTemplate(){
-    JmsTemplate template = new JmsTemplate();
-    template.setConnectionFactory(connectionFactory());
-    return template;
-  }
-
-  @Bean
-  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
-    DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-    factory.setConnectionFactory(connectionFactory());
-    factory.setConcurrency("1-1");
-    return factory;
-  }
-
-  @Bean
-  public JmsListenerContainerFactory<?> jmsFactory(ConnectionFactory connectionFactory,
+  public JmsListenerContainerFactory<?> jmsListenerContainerFactory(ConnectionFactory connectionFactory,
       DefaultJmsListenerContainerFactoryConfigurer configurer) {
     DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+    factory.setErrorHandler(new JmsErrorHandler());
     configurer.configure(factory, connectionFactory);
     return factory;
+  }
+
+  @Bean
+  public DefaultMessageHandlerMethodFactory handlerMethodFactory() {
+    DefaultMessageHandlerMethodFactory factory = new DefaultMessageHandlerMethodFactory();
+    factory.setMessageConverter(messageConverter());
+    return factory;
+  }
+
+  @Bean
+  public MessageConverter messageConverter() {
+    return new MappingJackson2MessageConverter();
+  }
+
+  @Override
+  public void configureJmsListeners(JmsListenerEndpointRegistrar registrar) {
+    registrar.setMessageHandlerMethodFactory(handlerMethodFactory());
   }
 
 }

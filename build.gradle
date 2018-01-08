@@ -50,8 +50,9 @@ dependencies {
 
     compile "org.apache.commons:commons-lang3:3.7"
 
-    compile "org.apache.activemq:activemq-broker"
-    compile "com.fasterxml.jackson.core:jackson-databind"
+    compile "org.springframework.boot:spring-boot-starter-activemq:${springBootVersion}"
+    compile "org.apache.activemq:activemq-pool:5.15.1"
+    compile "org.apache.qpid:qpid-jms-client:0.28.0"
 
     //TEST
     compile "org.springframework.boot:spring-boot-starter-test"
