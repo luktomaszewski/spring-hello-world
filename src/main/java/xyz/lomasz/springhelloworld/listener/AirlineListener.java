@@ -1,5 +1,6 @@
 package xyz.lomasz.springhelloworld.listener;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
@@ -14,7 +15,9 @@ public class AirlineListener {
   private AirlineController airlineController;
 
   @JmsListener(destination = "xyz.lomasz.springhelloworld.topic.airline")
-  public void receiveMessage(Airline airline) throws IOException {
+  public void receiveMessage(String messageString) throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    Airline airline = mapper.readValue(messageString, Airline.class);
     airlineController.createAirline(airline);
   }
 

@@ -80,7 +80,7 @@ public class AirlineController {
 
     airlineRepository.delete(icao);
 
-    esIndexService.delete(airline.get());
+    esIndexService.deleteIndex(airline.get());
 
     return new ResponseEntity<Airline>(HttpStatus.OK);
   }
