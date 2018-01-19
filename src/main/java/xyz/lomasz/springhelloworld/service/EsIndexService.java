@@ -19,11 +19,16 @@ import xyz.lomasz.springhelloworld.model.Airline;
 public class EsIndexService {
 
   private RestHighLevelClient client;
+
   private String indexName;
 
   @Autowired
-  public EsIndexService(RestHighLevelClient client, String indexName) {
+  public void setRestClient(RestHighLevelClient client) {
     this.client = client;
+  }
+
+  @Autowired
+  public void setIndexName(String indexName) {
     this.indexName = indexName;
   }
 
