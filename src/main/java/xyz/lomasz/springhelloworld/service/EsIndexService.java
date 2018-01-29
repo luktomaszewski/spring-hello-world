@@ -1,5 +1,6 @@
 package xyz.lomasz.springhelloworld.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import lombok.extern.apachecommons.CommonsLog;
@@ -11,6 +12,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.rest.RestStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import xyz.lomasz.springhelloworld.model.Airline;
 
@@ -20,6 +22,10 @@ public class EsIndexService {
 
   private RestHighLevelClient client;
 
+  @Autowired
+  private ObjectMapper mapper;
+
+  @Value("${spring.data.elasticsearch.index}")
   private String indexName;
 
   @Autowired
@@ -27,17 +33,18 @@ public class EsIndexService {
     this.client = client;
   }
 
-  @Autowired
-  public void setIndexName(String indexName) {
-    this.indexName = indexName;
-  }
-
-  public RestStatus index(Airline airline) throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
+  public IndexRequest prepareIndex(Airline airline) throws JsonProcessingException {
     String jsonString = mapper.writeValueAsString(airline);
 
     IndexRequest indexRequest = new IndexRequest(indexName, indexName, airline.getIcao());
     indexRequest = indexRequest.source(jsonString, XContentType.JSON);
+
+    return indexRequest;
+  }
+
+  public RestStatus index(Airline airline) throws IOException {
+
+    IndexRequest indexRequest = prepareIndex(airline);
     IndexResponse indexResponse = client.index(indexRequest);
 
     return indexResponse.status();

@@ -16,24 +16,24 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-  @Bean
-  public Docket SwaggerApi() {
-    return new Docket(DocumentationType.SWAGGER_2)
-        .apiInfo(apiInfo())
-        .select()
-        .apis(RequestHandlerSelectors.basePackage("xyz.lomasz.springhelloworld"))
-        .paths(regex(".*?"))
-        .build();
-  }
+    @Bean
+    public Docket SwaggerApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("xyz.lomasz.springhelloworld"))
+                .paths(regex(".*?"))
+                .build();
+    }
 
-  private ApiInfo apiInfo() {
-    return new ApiInfoBuilder()
-        .title("Spring Hello World's Swagger")
-        .description("Swagger for Spring Hello World Project")
-        .contact(new Contact("Lukasz Tomaszewski",
-            "http://sieni.us/?id=40",
-            "malpa@malpa.pl"))
-        .license("Only for Awesome Peoples")
-        .build();
-  }
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Spring Hello World's Swagger")
+                .description("Swagger for Spring Hello World Project")
+                .contact(new Contact("Lukasz Tomaszewski",
+                        "http://sieni.us/?id=40",
+                        "malpa@malpa.pl"))
+                .license("Only for Awesome Peoples")
+                .build();
+    }
 }

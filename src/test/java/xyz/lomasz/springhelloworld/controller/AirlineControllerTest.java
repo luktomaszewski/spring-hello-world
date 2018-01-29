@@ -17,8 +17,13 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AirlineControllerTest {
@@ -77,7 +82,7 @@ public class AirlineControllerTest {
     when(esIndexService.index(airline)).thenThrow(IOException.class);
 
     // when
-    ResponseEntity<?> result = airlineController.createAirline(airline);
+    airlineController.createAirline(airline);
 
     // then
     fail("Expected exception");
@@ -170,7 +175,6 @@ public class AirlineControllerTest {
 
   @Test
   public void listAllAirlinesExistedShouldReturnAirlineListAndOkStatus() throws Exception {
-    // TODO : Unit Test: listAllAirlines() -> List<Airline>
     // given
     Airline airline = mock(Airline.class);
     List<Airline> airlineList = Collections.singletonList(airline);
@@ -189,7 +193,6 @@ public class AirlineControllerTest {
 
   @Test
   public void listAllAirlinesNotExistedShouldReturnNotFoundStatus() throws Exception {
-    // TODO : Unit Test: listAllAirlines() -> empty List<Airline>
     // given
     List<Airline> airlineList = Collections.emptyList();
 

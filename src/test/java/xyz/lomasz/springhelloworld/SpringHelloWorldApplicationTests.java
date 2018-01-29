@@ -9,13 +9,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class SpringHelloWorldApplicationTests {
 
-  @Test
-  public void applicationContextLoaded() {
-  }
-
-  @Test
-  public void applicationContextTest() {
-    SpringHelloWorldApplication.main(new String[] {});
-  }
+    @Test
+    public void applicationContextTest() {
+        SpringHelloWorldApplication.main(new String[]{});
+    }
 
 }

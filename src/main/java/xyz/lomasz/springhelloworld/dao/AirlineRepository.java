@@ -10,7 +10,6 @@ import xyz.lomasz.springhelloworld.model.Airline;
 public interface AirlineRepository extends CrudRepository<Airline, String> {
 
   List<Airline> findAll();
-
   Optional<Airline> findByIcao(String icao);
 
 }

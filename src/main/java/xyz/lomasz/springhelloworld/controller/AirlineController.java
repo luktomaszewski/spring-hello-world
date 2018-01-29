@@ -2,11 +2,6 @@ package xyz.lomasz.springhelloworld.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,6 +15,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import xyz.lomasz.springhelloworld.dao.AirlineRepository;
 import xyz.lomasz.springhelloworld.model.Airline;
 import xyz.lomasz.springhelloworld.service.EsIndexService;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/airline")
@@ -35,12 +34,12 @@ public class AirlineController {
         this.esIndexService = esIndexService;
     }
 
-  @ApiOperation(value = "Getting information about all airlines")
-  @RequestMapping(method = RequestMethod.GET)
-  public ResponseEntity<List<Airline>> listAllAirlines() {
-    List<Airline> airlinesList = airlineRepository.findAll();
-    return new ResponseEntity<>(airlinesList, HttpStatus.OK);
-  }
+    @ApiOperation(value = "Getting information about all airlines")
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<Airline>> listAllAirlines() {
+        List<Airline> airlinesList = airlineRepository.findAll();
+        return new ResponseEntity<>(airlinesList, HttpStatus.OK);
+    }
 
     @ApiOperation(value = "Getting information about specific airline (finding by ICAO)")
     @RequestMapping(value = "{icao}", method = RequestMethod.GET)
@@ -76,7 +75,6 @@ public class AirlineController {
         }
 
         airlineRepository.delete(icao);
-
         esIndexService.deleteIndex(airline.get());
 
         return new ResponseEntity<Airline>(HttpStatus.OK);

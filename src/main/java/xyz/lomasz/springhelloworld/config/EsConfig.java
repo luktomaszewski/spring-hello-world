@@ -14,42 +14,42 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EsConfig {
 
-  @Value("${spring.data.elasticsearch.host}")
-  private String esHost;
+    @Value("${spring.data.elasticsearch.host}")
+    private String esHost;
 
-  @Value("${spring.data.elasticsearch.port}")
-  private int esPort;
+    @Value("${spring.data.elasticsearch.port}")
+    private int esPort;
 
-  @Value("${spring.data.elasticsearch.clustername}")
-  private String esClusterName;
+    @Value("${spring.data.elasticsearch.clustername}")
+    private String esClusterName;
 
-  @Value("${spring.data.elasticsearch.username}")
-  private String esUserName;
+    @Value("${spring.data.elasticsearch.username}")
+    private String esUserName;
 
-  @Value("${spring.data.elasticsearch.password}")
-  private String esPassword;
+    @Value("${spring.data.elasticsearch.password}")
+    private String esPassword;
 
-  @Value("${spring.data.elasticsearch.index}")
-  private String indexName;
+    @Value("${spring.data.elasticsearch.index}")
+    private String indexName;
 
-  @Bean
-  public RestHighLevelClient client() {
+    @Bean
+    public RestHighLevelClient client() {
 
-    final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-    credentialsProvider.setCredentials(AuthScope.ANY,
-        new UsernamePasswordCredentials(esUserName, esPassword));
+        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials(esUserName, esPassword));
 
-    return new RestHighLevelClient(
-        RestClient.builder(
-            new HttpHost(esHost, esPort, "http"))
-            .setHttpClientConfigCallback(
-                httpClientBuilder -> httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)));
-  }
+        return new RestHighLevelClient(
+                RestClient.builder(
+                        new HttpHost(esHost, esPort, "http"))
+                        .setHttpClientConfigCallback(
+                                httpClientBuilder -> httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)));
+    }
 
-  @Bean
-  public String indexName() {
-    return indexName;
-  }
+    @Bean
+    public String indexName() {
+        return indexName;
+    }
 }
 
 

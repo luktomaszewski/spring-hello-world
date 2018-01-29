@@ -8,9 +8,9 @@ import org.springframework.util.ErrorHandler;
 @Service
 public class JmsErrorHandler implements ErrorHandler {
 
-  @Override
-  public void handleError(Throwable t) {
-    log.error(t.getMessage());
-  }
+    @Override
+    public void handleError(Throwable t) {
+        log.error(t.getMessage());
+    }
 
 }

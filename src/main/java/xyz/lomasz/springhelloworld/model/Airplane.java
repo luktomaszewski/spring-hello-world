@@ -1,6 +1,5 @@
 package xyz.lomasz.springhelloworld.model;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,10 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 public class Airplane implements Serializable {
-
-    @ApiModelProperty(notes = "Tail Number")
     @Id
     private String tailNumber;
-    @ApiModelProperty(notes = "Airplane Type", position = 1)
     private String type;
 }

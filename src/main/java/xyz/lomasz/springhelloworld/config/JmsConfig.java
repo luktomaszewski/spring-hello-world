@@ -1,6 +1,7 @@
 package xyz.lomasz.springhelloworld.config;
 
 import javax.jms.ConnectionFactory;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -19,39 +20,39 @@ import xyz.lomasz.springhelloworld.handler.JmsErrorHandler;
 @Configuration
 public class JmsConfig implements JmsListenerConfigurer {
 
-  @Value("${spring.activemq.user}")
-  private String activemqUser;
+    @Value("${spring.activemq.user}")
+    private String activemqUser;
 
-  @Value("${spring.activemq.password}")
-  private String activemqPassword;
+    @Value("${spring.activemq.password}")
+    private String activemqPassword;
 
-  @Value("${spring.activemq.broker-url}")
-  private String activemqBrokerUrl;
+    @Value("${spring.activemq.broker-url}")
+    private String activemqBrokerUrl;
 
-  @Bean
-  public JmsListenerContainerFactory<?> jmsListenerContainerFactory(ConnectionFactory connectionFactory,
-      DefaultJmsListenerContainerFactoryConfigurer configurer) {
-    DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-    factory.setErrorHandler(new JmsErrorHandler());
-    configurer.configure(factory, connectionFactory);
-    return factory;
-  }
+    @Bean
+    public JmsListenerContainerFactory<?> jmsListenerContainerFactory(ConnectionFactory connectionFactory,
+                                                                      DefaultJmsListenerContainerFactoryConfigurer configurer) {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setErrorHandler(new JmsErrorHandler());
+        configurer.configure(factory, connectionFactory);
+        return factory;
+    }
 
-  @Bean
-  public DefaultMessageHandlerMethodFactory handlerMethodFactory() {
-    DefaultMessageHandlerMethodFactory factory = new DefaultMessageHandlerMethodFactory();
-    factory.setMessageConverter(messageConverter());
-    return factory;
-  }
+    @Bean
+    public DefaultMessageHandlerMethodFactory handlerMethodFactory() {
+        DefaultMessageHandlerMethodFactory factory = new DefaultMessageHandlerMethodFactory();
+        factory.setMessageConverter(messageConverter());
+        return factory;
+    }
 
-  @Bean
-  public MessageConverter messageConverter() {
-    return new MappingJackson2MessageConverter();
-  }
+    @Bean
+    public MessageConverter messageConverter() {
+        return new MappingJackson2MessageConverter();
+    }
 
-  @Override
-  public void configureJmsListeners(JmsListenerEndpointRegistrar registrar) {
-    registrar.setMessageHandlerMethodFactory(handlerMethodFactory());
-  }
+    @Override
+    public void configureJmsListeners(JmsListenerEndpointRegistrar registrar) {
+        registrar.setMessageHandlerMethodFactory(handlerMethodFactory());
+    }
 
 }
