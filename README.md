@@ -8,7 +8,7 @@ java8
 spring-boot
 swagger2
 assertj
-rest-assured
+mockito
 junit
 hibernate
 h2
@@ -17,6 +17,8 @@ elasticsearch
 activemq
 
 ## Getting Started
+
+### Manually:
 
 1) Run Elasticsearch (for example using Docker):
 ```
@@ -33,6 +35,15 @@ docker run -p 8161:8161 -p 61616:61616 <image_id>
 gradlew clean bootRun
 ```
 
-## TO-DO
-* unit tests (current test coverage: 48%)
-* docker-compose
+### Automatically: 
+```
+soon - in progress
+```
+
+## Goals
+- [x] mvn -> gradle
+- [x] swagger
+- [x] elasticsearch: index service
+- [x] activemq: listener
+- [ ] test coverage: 100% (current: 82%)
+- [ ] docker-compose
