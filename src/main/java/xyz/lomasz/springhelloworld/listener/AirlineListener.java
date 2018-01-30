@@ -14,7 +14,7 @@ public class AirlineListener {
     @Autowired
     private AirlineController airlineController;
 
-    @JmsListener(destination = "xyz.lomasz.springhelloworld.topic.airline", containerFactory = "jmsListenerContainerFactory")
+    @JmsListener(destination = "${spring.activemq.topic-name}", containerFactory = "jmsListenerContainerFactory")
     public void receiveMessage(Airline airline) throws IOException {
         airlineController.createAirline(airline);
     }

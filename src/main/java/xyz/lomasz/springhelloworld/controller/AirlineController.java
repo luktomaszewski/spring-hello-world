@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import xyz.lomasz.springhelloworld.dao.AirlineRepository;
 import xyz.lomasz.springhelloworld.model.Airline;
-import xyz.lomasz.springhelloworld.service.EsIndexService;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,12 +24,10 @@ import java.util.Optional;
 public class AirlineController {
 
     private AirlineRepository airlineRepository;
-    private EsIndexService esIndexService;
 
     @Autowired
-    public AirlineController(AirlineRepository airlineRepository, EsIndexService esIndexService) {
+    public AirlineController(AirlineRepository airlineRepository) {
         this.airlineRepository = airlineRepository;
-        this.esIndexService = esIndexService;
     }
 
     @ApiOperation(value = "Getting information about all airlines")
@@ -51,14 +47,12 @@ public class AirlineController {
 
     @ApiOperation(value = "Adding new airline to service")
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> createAirline(@RequestBody Airline airline) throws IOException {
+    public ResponseEntity<?> createAirline(@RequestBody Airline airline) {
         if (airlineRepository.findByIcao(airline.getIcao()).isPresent()) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
 
         airlineRepository.save(airline);
-
-        esIndexService.index(airline);
 
         UriComponentsBuilder ucBuilder = UriComponentsBuilder.newInstance();
         HttpHeaders headers = new HttpHeaders();
@@ -68,14 +62,13 @@ public class AirlineController {
 
     @ApiOperation(value = "Deleting airline from service")
     @RequestMapping(value = "{icao}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteAirline(@PathVariable("icao") String icao) throws IOException {
+    public ResponseEntity<?> deleteAirline(@PathVariable("icao") String icao) {
         Optional<Airline> airline = airlineRepository.findByIcao(icao);
         if (!airline.isPresent()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
         airlineRepository.delete(icao);
-        esIndexService.deleteIndex(airline.get());
 
         return new ResponseEntity<Airline>(HttpStatus.OK);
     }

@@ -13,37 +13,36 @@ junit
 hibernate
 h2
 gradle
-elasticsearch
 activemq
 
 ## Getting Started
 
 ### Manually:
 
-1) Run Elasticsearch (for example using Docker):
-```
-docker pull elasticsearch:5.6.5
-docker run -d -p 9200:9200 -p 9300:9300 <image_id>
-```
-2) Run ActiveMQ (for example using Docker):
+
+1) Run ActiveMQ (for example using Docker):
 ```
 docker pull webcenter/activemq
-docker run -p 8161:8161 -p 61616:61616 <image_id>
+docker run -p 8161:8161 -p 61616:61616 webcenter/activemq:latest
 ```
-3) Run SpringHelloWorld app (in main project directory)
+2) Run SpringHelloWorld app (in main project directory)
 ```
 gradlew clean bootRun
 ```
 
 ### Automatically: 
+
+**REQUIRED: Docker is running**
+
 ```
-soon - in progress
+gradlew clean buildDocker
+docker-compose up
 ```
 
 ## Goals
 - [x] mvn -> gradle
 - [x] swagger
-- [x] elasticsearch: index service
+- [x] ~~elasticsearch: index service~~
 - [x] activemq: listener
-- [ ] test coverage: 100% (current: 82%)
+- [x] test coverage: 100%
 - [ ] docker-compose

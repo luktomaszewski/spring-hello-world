@@ -9,9 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import xyz.lomasz.springhelloworld.dao.AirlineRepository;
 import xyz.lomasz.springhelloworld.model.Airline;
-import xyz.lomasz.springhelloworld.service.EsIndexService;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +17,6 @@ import java.util.Optional;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -28,183 +25,144 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class AirlineControllerTest {
 
-  @Mock
-  private EsIndexService esIndexService;
-
-  @Mock
-  private AirlineRepository airlineRepository;
+    @Mock
+    private AirlineRepository airlineRepository;
 
 
-  @InjectMocks
-  private AirlineController airlineController = new AirlineController(airlineRepository, esIndexService);
+    @InjectMocks
+    private AirlineController airlineController = new AirlineController(airlineRepository);
 
-  @Test
-  public void createAirlineNewShouldReturnCreatedStatus() throws Exception {
-    // given
-    Airline airline = new Airline();
-    String icao = "ICAO";
-    airline.setIcao(icao);
+    @Test
+    public void createAirlineNewShouldReturnCreatedStatus() throws Exception {
+        // given
+        Airline airline = new Airline();
+        String icao = "ICAO";
+        airline.setIcao(icao);
 
-    // when
-    ResponseEntity<?> result = airlineController.createAirline(airline);
+        // when
+        ResponseEntity<?> result = airlineController.createAirline(airline);
 
-    // then
-    verify(airlineRepository, atLeastOnce()).save(airline);
-    verify(esIndexService, atLeastOnce()).index(airline);
-    assertEquals("/airline/" + icao, result.getHeaders().getLocation().toString());
-    assertThat(result.getStatusCode(), is(HttpStatus.CREATED));
+        // then
+        verify(airlineRepository, atLeastOnce()).save(airline);
+        assertEquals("/airline/" + icao, result.getHeaders().getLocation().toString());
+        assertThat(result.getStatusCode(), is(HttpStatus.CREATED));
 
-}
+    }
 
-  @Test
-  public void createAirlineDuplicatedShouldReturnConflictStatus() throws Exception {
-    // given
-    Airline airline = new Airline();
-    String icao = "ICAO";
-    airline.setIcao(icao);
+    @Test
+    public void createAirlineDuplicatedShouldReturnConflictStatus() throws Exception {
+        // given
+        Airline airline = new Airline();
+        String icao = "ICAO";
+        airline.setIcao(icao);
 
-    when(airlineRepository.findByIcao(airline.getIcao())).thenReturn(Optional.of(airline));
+        when(airlineRepository.findByIcao(airline.getIcao())).thenReturn(Optional.of(airline));
 
-    // when
-    ResponseEntity<?> result = airlineController.createAirline(airline);
+        // when
+        ResponseEntity<?> result = airlineController.createAirline(airline);
 
-    // then
-    assertThat(result.getStatusCode(), is(HttpStatus.CONFLICT));
+        // then
+        assertThat(result.getStatusCode(), is(HttpStatus.CONFLICT));
 
-  }
+    }
 
-  @Test(expected = IOException.class)
-  public void createAirlineDuplicatedShouldThrowIOException() throws Exception {
-    // given
-    Airline airline = new Airline();
-    String icao = "ICAO";
-    airline.setIcao(icao);
-    when(esIndexService.index(airline)).thenThrow(IOException.class);
+    @Test
+    public void getAirlineExistedShouldReturnAirline() throws Exception {
+        // given
+        Airline airline = new Airline();
+        String icao = "ICAO";
+        airline.setIcao(icao);
 
-    // when
-    airlineController.createAirline(airline);
+        when(airlineRepository.findByIcao(icao)).thenReturn(Optional.of(airline));
 
-    // then
-    fail("Expected exception");
+        // when
+        ResponseEntity<?> result = airlineController.getAirline(icao);
 
-  }
+        // then
+        assertThat(result.getBody(), is(airline));
+        assertThat(result.getStatusCode(), is(HttpStatus.OK));
 
-  @Test
-  public void getAirlineExistedShouldReturnAirline() throws Exception {
-    // given
-    Airline airline = new Airline();
-    String icao = "ICAO";
-    airline.setIcao(icao);
+    }
 
-    when(airlineRepository.findByIcao(icao)).thenReturn(Optional.of(airline));
+    @Test
+    public void getAirlineNotExistedShouldReturnNotFoundStatus() throws Exception {
+        // given
+        String icao = "ICAO";
 
-    // when
-    ResponseEntity<?> result = airlineController.getAirline(icao);
+        when(airlineRepository.findByIcao(icao)).thenReturn(Optional.empty());
 
-    // then
-    assertThat(result.getBody(), is(airline));
-    assertThat(result.getStatusCode(), is(HttpStatus.OK));
+        // when
+        ResponseEntity<?> result = airlineController.getAirline(icao);
 
-  }
+        // then
+        assertThat(result.getStatusCode(), is(HttpStatus.NOT_FOUND));
 
-  @Test
-  public void getAirlineNotExistedShouldReturnNotFoundStatus() throws Exception {
-    // given
-    String icao = "ICAO";
+    }
 
-    when(airlineRepository.findByIcao(icao)).thenReturn(Optional.empty());
+    @Test
+    public void deleteAirlineExistedShouldReturnOkStatus() throws Exception {
+        // given
+        Airline airline = new Airline();
+        String icao = "ICAO";
 
-    // when
-    ResponseEntity<?> result = airlineController.getAirline(icao);
+        when(airlineRepository.findByIcao(icao)).thenReturn(Optional.of(airline));
 
-    // then
-    assertThat(result.getStatusCode(), is(HttpStatus.NOT_FOUND));
+        // when
+        ResponseEntity<?> result = airlineController.deleteAirline(icao);
 
-  }
+        // then
+        verify(airlineRepository, atLeastOnce()).delete(icao);
+        assertThat(result.getStatusCode(), is(HttpStatus.OK));
 
-  @Test
-  public void deleteAirlineExistedShouldReturnOkStatus() throws Exception {
-    // given
-    Airline airline = new Airline();
-    String icao = "ICAO";
+    }
 
-    when(airlineRepository.findByIcao(icao)).thenReturn(Optional.of(airline));
+    @Test
+    public void deleteAirlineNotExistedShouldReturnNotFoundStatus() throws Exception {
+        // given
+        String icao = "ICAO";
 
-    // when
-    ResponseEntity<?> result = airlineController.deleteAirline(icao);
+        when(airlineRepository.findByIcao(icao)).thenReturn(Optional.empty());
 
-    // then
-    verify(airlineRepository, atLeastOnce()).delete(icao);
-    verify(esIndexService, atLeastOnce()).deleteIndex(airline);
-    assertThat(result.getStatusCode(), is(HttpStatus.OK));
+        // when
+        ResponseEntity<?> result = airlineController.deleteAirline(icao);
 
-  }
+        // then
+        assertThat(result.getStatusCode(), is(HttpStatus.NOT_FOUND));
 
-  @Test
-  public void deleteAirlineNotExistedShouldReturnNotFoundStatus() throws Exception {
-    // given
-    String icao = "ICAO";
+    }
 
-    when(airlineRepository.findByIcao(icao)).thenReturn(Optional.empty());
+    @Test
+    public void listAllAirlinesExistedShouldReturnAirlineListAndOkStatus() throws Exception {
+        // given
+        Airline airline = mock(Airline.class);
+        List<Airline> airlineList = Collections.singletonList(airline);
 
-    // when
-    ResponseEntity<?> result = airlineController.deleteAirline(icao);
+        when(airlineRepository.findAll()).thenReturn(airlineList);
 
-    // then
-    assertThat(result.getStatusCode(), is(HttpStatus.NOT_FOUND));
+        // when
+        ResponseEntity<List<Airline>> result = airlineController.listAllAirlines();
 
-  }
+        // then
+        assertThat(result.getStatusCode(), is(HttpStatus.OK));
+        assertThat(result.getBody(), is(airlineList));
+        assertEquals(1, result.getBody().size());
 
-  @Test(expected = IOException.class)
-  public void deleteAirlineNotExistedShouldThrowIOException() throws Exception {
-    // given
-    Airline airline = new Airline();
-    String icao = "ICAO";
+    }
 
-    when(airlineRepository.findByIcao(icao)).thenReturn(Optional.of(airline));
-    when(esIndexService.deleteIndex(airline)).thenThrow(IOException.class);
+    @Test
+    public void listAllAirlinesNotExistedShouldReturnNotFoundStatus() throws Exception {
+        // given
+        List<Airline> airlineList = Collections.emptyList();
 
-    // when
-    airlineController.deleteAirline(icao);
+        when(airlineRepository.findAll()).thenReturn(airlineList);
 
-    // then
-    fail("Expected exception");
+        // when
+        ResponseEntity<List<Airline>> result = airlineController.listAllAirlines();
 
-  }
-
-
-  @Test
-  public void listAllAirlinesExistedShouldReturnAirlineListAndOkStatus() throws Exception {
-    // given
-    Airline airline = mock(Airline.class);
-    List<Airline> airlineList = Collections.singletonList(airline);
-
-    when(airlineRepository.findAll()).thenReturn(airlineList);
-
-    // when
-    ResponseEntity<List<Airline>> result = airlineController.listAllAirlines();
-
-    // then
-    assertThat(result.getStatusCode(), is(HttpStatus.OK));
-    assertThat(result.getBody(), is(airlineList));
-    assertEquals(1, result.getBody().size());
-
-  }
-
-  @Test
-  public void listAllAirlinesNotExistedShouldReturnNotFoundStatus() throws Exception {
-    // given
-    List<Airline> airlineList = Collections.emptyList();
-
-    when(airlineRepository.findAll()).thenReturn(airlineList);
-
-    // when
-    ResponseEntity<List<Airline>> result = airlineController.listAllAirlines();
-
-    // then
-    assertThat(result.getStatusCode(), is(HttpStatus.OK));
-    assertThat(result.getBody(), is(airlineList));
-    assertEquals(0, result.getBody().size());
-  }
+        // then
+        assertThat(result.getStatusCode(), is(HttpStatus.OK));
+        assertThat(result.getBody(), is(airlineList));
+        assertEquals(0, result.getBody().size());
+    }
 
 }
