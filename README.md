@@ -17,26 +17,34 @@ activemq
 
 ## Getting Started
 
-### Manually:
-
-
-1) Run ActiveMQ (for example using Docker):
-```
-docker pull webcenter/activemq
-docker run -p 8161:8161 -p 61616:61616 webcenter/activemq:latest
-```
-2) Run SpringHelloWorld app (in main project directory)
-```
-gradlew clean bootRun
-```
-
-### Automatically: 
+## How to run
+   
+#### using docker-compose
 
 **REQUIRED: Docker is running**
 
 ```
-gradlew clean buildDocker
+gradlew clean build
 docker-compose up
+```
+
+#### using activemq in docker
+
+**REQUIRED: Docker is running**
+
+```
+docker run -p 8161:8161 -p 61616:61616 webcenter/activemq:latest
+gradlew clean bootRun -Dspring.profiles.active=local
+```
+
+#### using local activemq
+
+**REQUIRED: ActiveMQ is running**
+
+with user: `admin` & password: `admin`
+
+```
+gradlew clean bootRun -Dspring.profiles.active=local
 ```
 
 ## Goals
@@ -44,5 +52,6 @@ docker-compose up
 - [x] swagger
 - [x] ~~elasticsearch: index service~~
 - [x] activemq: listener
-- [x] test coverage: 100%
-- [ ] docker-compose
+- [x] unit test coverage: 100%
+- [x] docker-compose
+- [ ] integration tests

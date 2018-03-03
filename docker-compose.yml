@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+  activemq:
+    image: webcenter/activemq:latest
+    ports:
+      - "8161:8161"
+      - "61616:61616"
+  app:
+    build: .
+    ports:
+      - "666:666"
+    depends_on:
+      - "activemq"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
